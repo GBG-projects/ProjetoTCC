@@ -42,30 +42,3 @@ export async function GET() {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
     }
 }
-
-export async function DELETE(requisicao) {
-
-    try {
-        const { searchParams } = new URL(requisicao.url);
-        const id = searchParams.get("Cod_lembrete");
-
-        if (!cod_Lembrete) {
-            return NextResponse.json(
-                { error: "Informe o codigo do lembrete para deletar." },
-                { status: 400 }
-            );
-        }
-
-
-        await pool.query(
-            `DELETE FROM Lembrete WHERE Cod_lembrete = $1`,
-            [cod_Lembrete]
-        );
-
-        return NextResponse.json({
-            message: "Lembrete deletado com sucesso!"
-        });
-    } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-}

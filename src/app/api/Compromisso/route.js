@@ -42,30 +42,3 @@ export async function GET() {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
     }
 }
-
-export async function DELETE(requisicao) {
-
-    try {
-        const { searchParams } = new URL(requisicao.url);
-        const id = searchParams.get("codcompromisso");
-
-        if (!id) {
-            return NextResponse.json(
-                { error: "Informe o codcompromisso para deletar." },
-                { status: 400 }
-            );
-        }
-
-
-        await pool.query(
-            `DELETE FROM compromisso WHERE codcompromisso = $1`,
-            [id]
-        );
-
-        return NextResponse.json({
-            message: "compromisso deletado com sucesso!"
-        });
-    } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-}

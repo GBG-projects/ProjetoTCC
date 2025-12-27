@@ -43,29 +43,3 @@ export async function GET() {
     }
 }
 
-export async function DELETE(requisicao) {
-
-    try {
-        const { searchParams } = new URL(requisicao.url);
-        const CodUsuario = searchParams.get("CodUsuario");
-        const CodCompromisso = searchParams.get("CodUsuario");
-        if (!CodUsuario || !CodCompromisso) {
-            return NextResponse.json(
-                { error: "Informe o Codigo do usuario e o codigo do Compromisso para deletar." },
-                { status: 400 }
-            );
-        }
-
-
-        await pool.query(
-            `DELETE FROM Turma WHERE CodUsuario = $1 and CodCompromisso = $2`,
-            [CodUsuario, CodCompromisso]
-        );
-
-        return NextResponse.json({
-            message: "turma deletada com sucesso!"
-        });
-    } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-}
